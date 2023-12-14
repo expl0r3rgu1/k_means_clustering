@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from multiprocessing import Pool
+import matplotlib.pyplot as plt
 
 def kmeans_worker(args):
     data, k, idx_range = args
@@ -27,6 +28,14 @@ def parallel_kmeans(data, k, num_processes=2):
 
     return final_kmeans
 
+def plot_clusters(data, kmeans_result):
+    plt.scatter(data[:, 0], data[:, 1], c=kmeans_result.labels_, cmap='viridis', alpha=0.5, edgecolors='w')
+    plt.scatter(kmeans_result.cluster_centers_[:, 0], kmeans_result.cluster_centers_[:, 1], marker='x', s=200, c='red')
+    plt.title('K-Means Clustering')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    plt.show()
+
 # Example usage:
 if __name__ == "__main__":
     # Generate synthetic data
@@ -41,5 +50,5 @@ if __name__ == "__main__":
     # Perform parallel k-means clustering
     parallel_kmeans_result = parallel_kmeans(data, k, num_processes)
 
-    # Print the final cluster centers
-    print("Final Cluster Centers:\n", parallel_kmeans_result.cluster_centers_)
+    # Visualize the clusters
+    plot_clusters(data, parallel_kmeans_result)
