@@ -34,9 +34,9 @@ def kmeans_sequential(points, n_clusters, max_iter=100):
     return initial_centroids, closest
 
 # Generate sample data
-n_samples = 1000
-n_clusters = 4
-n_processes = 2
+n_samples = 20000
+n_clusters = 8
+n_processes = 4
 X, _ = make_blobs(n_samples=n_samples, centers=n_clusters, random_state=0, cluster_std=0.60)
 
 # Perform k-means clustering
