@@ -41,13 +41,13 @@ def kmeans_parallel(points, n_clusters, n_processes, max_iter=100, tol=1e-4):
     return initial_centroids, closest
 
 
-def kmeans_sequential(points, n_clusters, max_iter=100):
+def kmeans_sequential(points, n_clusters, max_iter=100, tol=1e-4):
     initial_centroids = points[np.random.choice(
         len(points), n_clusters, replace=False)]
     for _ in range(max_iter):
-        closest = assign_to_centroids(points, initial_centroids)
-        new_centroids = compute_centroids(points, closest, n_clusters)
-        if np.all(initial_centroids == new_centroids):
+        new_centroids, closest = assign_and_compute_centroids(
+            points, initial_centroids, n_clusters)
+        if np.linalg.norm(initial_centroids - new_centroids) < tol:
             break
         initial_centroids = new_centroids
     return initial_centroids, closest
